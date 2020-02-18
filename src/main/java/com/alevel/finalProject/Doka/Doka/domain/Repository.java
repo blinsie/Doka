@@ -1,4 +1,7 @@
 package com.alevel.finalProject.Doka.Doka.domain;
 
-public interface Repository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface Repository extends JpaRepository {
+
 }
