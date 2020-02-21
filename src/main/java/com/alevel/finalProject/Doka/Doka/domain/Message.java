@@ -22,8 +22,12 @@ public class Message {
     @Column(name = "text")
     private String text;
 
-    public Message(String text) {
+    @Column(name = "autor")
+    private String autor;
+
+    public Message(String text, String autor) {
         this.text = text;
+        this.autor = autor;
     }
 
     public Message() {

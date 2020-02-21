@@ -1,11 +1,10 @@
 package com.alevel.finalProject.Doka.Doka.controller;
 
-
-
 import com.alevel.finalProject.Doka.Doka.domain.Message;
 import com.alevel.finalProject.Doka.Doka.repos.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,37 +18,30 @@ public class MainController {
 
 
     @GetMapping("/")
-    public String greeting(Map<String, Object> model) {
+    public String greeting(Model model) {
+
         return "greeting";
     }
 
     @GetMapping("/main")
-    public String main() {
-
-        return "main";
-    }
-
-   /* @PostMapping("/main")
-    public String add(@RequestParam String name, @RequestParam String email, Map<String, Object> model) {
-        User user = new User(name, email);
-        userRepository.save(user);
-        Iterable<User> users = userRepository.findAll();
-        model.put("users", users);
-        return "main";
-    }*/
-
-    @PostMapping("/main")
-    public String addMsg(@RequestParam String msg, Map<String, Object> model) {
-        Message message = new Message(msg);
-        messageRepository.save(message);
-
-
-        System.out.println("Message found with findAll():");
-        System.out.println("-------------------------------");
+    public String main(Map<String, Object> model) {
+        Iterable<Message> messages = messageRepository.findAll();
+        /*System.out.println("\n\n\n");
         for (Message m : messageRepository.findAll()) {
             System.out.println(m);
         }
-        System.out.println();
+        System.out.println("\n\n\n");*/
+        model.put("messages", messages);
+        return "main";
+    }
+
+    @PostMapping("/main")
+    public String addMsg(@RequestParam String msg, Map<String, Object> model) {
+        Message message = new Message(msg, "");
+        messageRepository.save(message);
+        Iterable<Message> messages = messageRepository.findAll();
+        model.put("messages", messages);
+
         return "main";
     }
 }
