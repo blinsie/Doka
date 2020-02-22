@@ -33,8 +33,8 @@
                            name="${_csrf.parameterName}"
                            value="${_csrf.token}"/>
                     <div class="form-group">
-                        <label for="name">Input message:</label>
-                        <input type="text" id="name" class="form-control" placeholder="Your message here...">
+                        <label for="text">Input message:</label>
+                        <input type="text" id="text" class="form-control" placeholder="Your message here...">
                     </div>
                     <button id="send" class="btn btn-default" type="submit">Send</button>
                 </form>
@@ -45,7 +45,7 @@
                 <table id="conversation" class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Greetings</th>
+                        <th>Messages</th>
                     </tr>
                     </thead>
                     <tbody id="greetings">

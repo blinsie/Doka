@@ -2,7 +2,6 @@ package com.alevel.finalProject.Doka.Doka.controller;
 
 import com.alevel.finalProject.Doka.Doka.domain.Message;
 import com.alevel.finalProject.Doka.Doka.repos.MessageRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,24 +12,21 @@ import java.util.Map;
 
 @Controller
 public class MainController {
-    @Autowired
-    private MessageRepository messageRepository;
+    private final MessageRepository messageRepository;
+
+    public MainController(MessageRepository messageRepository) {
+        this.messageRepository = messageRepository;
+    }
 
 
     @GetMapping("/")
     public String greeting(Model model) {
-
-        return "greeting";
+        return "main";
     }
 
     @GetMapping("/main")
     public String main(Map<String, Object> model) {
         Iterable<Message> messages = messageRepository.findAll();
-        /*System.out.println("\n\n\n");
-        for (Message m : messageRepository.findAll()) {
-            System.out.println(m);
-        }
-        System.out.println("\n\n\n");*/
         model.put("messages", messages);
         return "main";
     }
