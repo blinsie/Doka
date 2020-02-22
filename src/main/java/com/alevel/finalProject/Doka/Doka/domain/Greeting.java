@@ -2,6 +2,7 @@ package com.alevel.finalProject.Doka.Doka.domain;
 
 public class Greeting {
 
+
     private String content;
 
     public Greeting() {

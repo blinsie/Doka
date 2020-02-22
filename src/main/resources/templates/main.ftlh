@@ -13,7 +13,6 @@
 
     <div>
         <@l.logout />
-        <span><a href="/user">User list</a></span>
     </div>
     <div>
         <a href="/test.html">test</a>

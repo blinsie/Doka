@@ -36,8 +36,8 @@ public class Message {
     @Override
     public String toString() {
         return String.format(
-                "Message[message_id=%s, text='%s']",
-                message_id, text);
+                "Message[message_id=%s, autor='%s', text='%s']",
+                message_id, autor, text);
     }
 
 }

@@ -2,6 +2,6 @@
 
 <@c.page>
 <div>
-    <p>Click <a href="/hello">here</a> to start.</p>
+    <p>Click <a href="/main">here</a> to start.</p>
 </div>
 </@c.page>
