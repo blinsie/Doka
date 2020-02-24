@@ -28,6 +28,9 @@ public class Message {
     @Column(name = "text_channel_id")
     private Integer text_channel_id;
 
+    @Column(name = "to")
+    private String to;
+
     public Message(String text, String autor) {
         this.text = text;
         this.autor = autor;

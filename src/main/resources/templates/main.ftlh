@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Doka</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
@@ -14,6 +15,7 @@
 </head>
 <body>
 
+<a href="/test.html">{Test multichat here}</a>
     <div>
         <@l.logout />
     </div>
