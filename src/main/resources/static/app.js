@@ -29,6 +29,7 @@ function disconnect() {
         stompClient.disconnect();
     }
     setConnected(false);
+    location.reload()
     console.log("Disconnected");
 }
 

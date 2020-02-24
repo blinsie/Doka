@@ -25,6 +25,9 @@ public class Message {
     @Column(name = "autor")
     private String autor;
 
+    @Column(name = "text_channel_id")
+    private Integer text_channel_id;
+
     public Message(String text, String autor) {
         this.text = text;
         this.autor = autor;
@@ -36,8 +39,8 @@ public class Message {
     @Override
     public String toString() {
         return String.format(
-                "Message[message_id=%s, autor='%s', text='%s']",
-                message_id, autor, text);
+                "Message[message_id=%s, autor='%s', text='%s', text_channel_id='%s']",
+                message_id, autor, text, text_channel_id);
     }
 
 }

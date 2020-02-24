@@ -21,12 +21,26 @@ public class MainController {
 
     @GetMapping("/")
     public String greeting(Model model) {
-        return "main";
+        return "redirect:/main";
     }
 
     @GetMapping("/main")
     public String main(Map<String, Object> model) {
         Iterable<Message> messages = messageRepository.findAll();
+        messages.forEach(message -> {
+            if(message.getText_channel_id() == null){
+                message.setText_channel_id(-1);
+            }
+            if(message.getAutor() == null){
+                message.setAutor("-1");
+            }
+            if(message.getMessage_id() == null){
+                message.setMessage_id("-1");
+            }
+            if(message.getText() == null){
+                message.setText("<empty>");
+            }
+        });
         model.put("messages", messages);
         return "main";
     }
