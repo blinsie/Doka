@@ -7,6 +7,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
+import java.security.Principal;
+
 @Controller
 public class TextChannelController {
     private final MessageRepository messageRepository;
@@ -18,22 +20,15 @@ public class TextChannelController {
         this.messageRepository = messageRepository;
     }
 
-/*    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public Message sendMessage(Message message, Principal principal) throws Exception {
-        String name = principal.getName();//get logged in username
-        Message resultMessage = new Message(name + ":\t" + HtmlUtils.htmlEscape(message.getText()), name);
-        messageRepository.save(resultMessage);
-        return resultMessage;
-    }*/
-
     @MessageMapping("/personalMsg")
-    public void greeting(Message msg) {
-        //msg.setAutor(principal.getName());
+    public void greeting(Message msg, Principal principal) {
+        msg.setAutor(principal.getName());
+        System.out.println(msg.toString());
         String sender = msg.getAutor();
         String content = msg.getText();
         String receiver = msg.getTo();
         System.out.println(sender + " " + content + " " + receiver);
+        messageRepository.save(msg);
         simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/reply", msg);
     }
 }

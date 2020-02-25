@@ -8,7 +8,7 @@ public class Server {
 
     private String server_name;
 
-    private List<Integer> users_id;
+    private List<User> users;
     private List<Integer> text_channels_id;
     private List<Integer> call_channels_id;
 
