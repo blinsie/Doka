@@ -9,31 +9,32 @@
 </head>
 <body>
 
-<a href="/test.html">{Test multichat here}</a>
-    <div>
-        <@l.logout />
-    </div>
+<a href="/chat">{Test multichat here}</a>
+<div>
+    <@l.logout />
+</div>
 
-    <div>
-        <form method="post">
-            <input type="text" , name="msg" , placeholder="input pls message"/>
-            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-            <button type="submit">AddMsg</button>
-        </form>
-    </div>
+<div>
+    <form method="post">
+        <input type="text" , name="msg" , placeholder="input pls message"/>
+        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+        <button type="submit">AddMsg</button>
+    </form>
+</div>
 
-    <div>
-        <#list messages as message>
-            <div>
+<div>
+    <#list messages as message>
+        <div>
+            <b id="msg_author">${message.autor + ":\t"}</b>
+            <span id="msg_text">${message.text}</span>
 
-                <span id="msg_text">${message.text}</span>
-            </div>
-        <#else>
-            No message
-        </#list>
+        </div>
+    <#else>
+        No message
+    </#list>
 
 
-    </div>
+</div>
 
 </body>
 </html>

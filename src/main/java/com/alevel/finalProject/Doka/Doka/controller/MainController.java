@@ -37,8 +37,11 @@ public class MainController {
             if(message.getMessage_id() == null){
                 message.setMessage_id("-1");
             }
+            if(message.getTo() == null){
+                message.setTo("<empty_receiver>");
+            }
             if(message.getText() == null){
-                message.setText("<empty>");
+                message.setText("<empty_text>");
             }
         });
         model.put("messages", messages);

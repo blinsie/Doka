@@ -11,8 +11,8 @@
 </head>
 <body>
 <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
-    enabled. Please enable
-    Javascript and reload this page!</h2></noscript>
+        enabled. Please enable
+        Javascript and reload this page!</h2></noscript>
 <div id="main-content" class="container">
     <div class="row">
         <span id="username">${username}</span>
@@ -54,6 +54,21 @@
                 </tr>
                 </thead>
                 <tbody id="greetings">
+                <#list messages as message>
+                    <tr>
+                        <td> ${message.autor} </td>
+                        <td> ${message.text} </td>
+                        <td> ${message.to} </td>
+                    </tr>
+                <#else>
+                    <tr>
+                        <td> empty </td>
+                        <td> empty </td>
+                        <td> empty </td>
+                    </tr>
+                </#list>
+                </tbody>
+
                 </tbody>
             </table>
         </div>
