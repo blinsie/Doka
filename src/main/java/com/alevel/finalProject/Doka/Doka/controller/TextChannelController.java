@@ -2,28 +2,33 @@ package com.alevel.finalProject.Doka.Doka.controller;
 
 
 import com.alevel.finalProject.Doka.Doka.domain.Message;
+import com.alevel.finalProject.Doka.Doka.domain.User;
 import com.alevel.finalProject.Doka.Doka.repos.MessageRepository;
+import com.alevel.finalProject.Doka.Doka.repos.UserRepository;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
 public class TextChannelController {
     private final MessageRepository messageRepository;
+    private final UserRepository userRepository;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-
-    public TextChannelController(MessageRepository messageRepository, SimpMessagingTemplate simpMessagingTemplate) {
+    public TextChannelController(MessageRepository messageRepository, SimpMessagingTemplate simpMessagingTemplate, UserRepository userRepository) {
         this.simpMessagingTemplate = simpMessagingTemplate;
         this.messageRepository = messageRepository;
+        this.userRepository = userRepository;
     }
 
     @MessageMapping("/personalMsg")
-    public void greeting(Message msg, Principal principal) {
+    public void sendMessage(Message msg, Principal principal) {
         msg.setAutor(principal.getName());
         System.out.println(msg.toString());
         String sender = msg.getAutor();
@@ -37,25 +42,27 @@ public class TextChannelController {
     @GetMapping("/chat")
     public String chat(Map<String, Object> model, Principal principal) {
         model.put("username", principal.getName());
-        Iterable<Message> messages = messageRepository.findAll();
-
-        messages.forEach(message -> {
-            if(message.getText_channel_id() == null){
-                message.setText_channel_id(-1);
+        List<User> users = userRepository.findAll();
+        model.put("userlist", users);
+        List<Message> messages = messageRepository.findAll();
+        List<Message> forRemove = new ArrayList<>();
+        for (Message m : messages) {
+            if (m.getAutor() == null) {
+                m.setAutor("<empty_author>");
             }
-            if(message.getAutor() == null){
-                message.setAutor("-1");
+            if (m.getTo() == null) {
+                m.setTo("<empty_receiver>");
             }
-            if(message.getMessage_id() == null){
-                message.setMessage_id("-1");
+            if (m.getText() == null) {
+                m.setText("<empty_text>");
             }
-            if(message.getTo() == null){
-                message.setTo("<empty_receiver>");
+            if (!m.getAutor().equals(principal.getName())) {
+                if (!m.getTo().equals(principal.getName())) {
+                    forRemove.add(m);
+                }
             }
-            if(message.getText() == null){
-                message.setText("<empty_text>");
-            }
-        });
+        }
+        messages.removeAll(forRemove);
         model.put("messages", messages);
         return "chat";
     }

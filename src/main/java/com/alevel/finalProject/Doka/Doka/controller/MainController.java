@@ -50,7 +50,23 @@ public class MainController {
 
     @PostMapping("/main")
     public String addMsg(@RequestParam String msg, Map<String, Object> model) {
-        Message message = new Message(msg, "");
+        Message message = new Message();
+        message.setText(msg);
+        if(message.getText_channel_id() == null){
+            message.setText_channel_id(-1);
+        }
+        if(message.getAutor() == null){
+            message.setAutor("<empty_author>");
+        }
+        if(message.getMessage_id() == null){
+            message.setMessage_id("<empty_message_id>");
+        }
+        if(message.getTo() == null){
+            message.setTo("<empty_receiver>");
+        }
+        if(message.getText() == null){
+            message.setText("<empty_text>");
+        }
         messageRepository.save(message);
         Iterable<Message> messages = messageRepository.findAll();
         model.put("messages", messages);

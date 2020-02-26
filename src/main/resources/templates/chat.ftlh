@@ -8,14 +8,32 @@
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
     <script src="/app.js"></script>
+    <script>
+        function addTextToInput(anElement) {
+            var text = anElement.innerText;
+            document.getElementById('receiver').value = text;
+        }
+    </script>
 </head>
 <body>
-<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+<noscript><h2 style="color: #ff0e36">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
         enabled. Please enable
         Javascript and reload this page!</h2></noscript>
+<a href="/main">Main page</a>
 <div id="main-content" class="container">
     <div class="row">
+        <b>Your name: </b>
         <span id="username">${username}</span>
+        <div>
+            <b>User list:</b>
+            <#list userlist as user>
+            <tr>
+                <td> <button type="button" onclick="addTextToInput(this)">${user.username} </button> </td>
+            </tr>
+            <#else>
+
+            </#list>
+        </div>
         <div class="col-md-6">
             <form class="form-inline">
                 <input type="hidden" name="_csrf" value="${_csrf.token}"/>
@@ -62,9 +80,9 @@
                     </tr>
                 <#else>
                     <tr>
-                        <td> empty </td>
-                        <td> empty </td>
-                        <td> empty </td>
+                        <td> empty</td>
+                        <td> empty</td>
+                        <td> empty</td>
                     </tr>
                 </#list>
                 </tbody>
@@ -74,5 +92,9 @@
         </div>
     </div>
 </div>
+
+<script>
+    connect();
+</script>
 </body>
 </html>
