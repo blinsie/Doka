@@ -4,7 +4,7 @@
 
 <@c.page>
     Add new user
-    ${message }
+    ${message}
     <@l.login "/reg" />
 </@c.page>
 

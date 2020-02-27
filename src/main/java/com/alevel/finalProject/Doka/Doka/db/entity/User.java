@@ -1,10 +1,15 @@
-package com.alevel.finalProject.Doka.Doka.domain;
+package com.alevel.finalProject.Doka.Doka.db.entity;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name="users", schema = "public")
+@Data
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -24,56 +29,27 @@ public class User {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+/*
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "servers",
+            joinColumns = {@JoinColumn(name = "server_id")},
+            inverseJoinColumns = {@JoinColumn(name = "id")}
+    )
+    private List<Server> serverList;
+*/
 
-
-
-    public User() {
-    }
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public Integer getId() {
-        return id;
+/*
+    public void addServer(Server server){
+        this.serverList.add(server);
     }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
+*/
 
     @Override
     public String toString() {

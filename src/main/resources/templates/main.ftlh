@@ -9,7 +9,8 @@
 </head>
 <body>
 
-<a href="/chat">{Test multichat here}</a>
+<a href="/private-chat">Private chat</a>
+<a href="/server/">Server</a>
 <div>
     <@l.logout />
 </div>
@@ -25,7 +26,7 @@
 <div>
     <#list messages as message>
         <div>
-            <b id="msg_author">${message.autor + ":\t"}</b>
+            <b id="msg_author">${message.author + ":\t"}</b>
             <span id="msg_text">${message.text}</span>
 
         </div>

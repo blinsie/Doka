@@ -1,7 +1,7 @@
 package com.alevel.finalProject.Doka.Doka.controller;
 
-import com.alevel.finalProject.Doka.Doka.domain.Message;
-import com.alevel.finalProject.Doka.Doka.repos.MessageRepository;
+import com.alevel.finalProject.Doka.Doka.db.entity.Message;
+import com.alevel.finalProject.Doka.Doka.db.repos.MessageRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,8 +31,8 @@ public class MainController {
             if(message.getText_channel_id() == null){
                 message.setText_channel_id(-1);
             }
-            if(message.getAutor() == null){
-                message.setAutor("-1");
+            if(message.getAuthor() == null){
+                message.setAuthor("-1");
             }
             if(message.getMessage_id() == null){
                 message.setMessage_id("-1");
@@ -55,8 +55,8 @@ public class MainController {
         if(message.getText_channel_id() == null){
             message.setText_channel_id(-1);
         }
-        if(message.getAutor() == null){
-            message.setAutor("<empty_author>");
+        if(message.getAuthor() == null){
+            message.setAuthor("<empty_author>");
         }
         if(message.getMessage_id() == null){
             message.setMessage_id("<empty_message_id>");

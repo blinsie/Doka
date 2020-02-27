@@ -1,4 +1,4 @@
-package com.alevel.finalProject.Doka.Doka.domain;
+package com.alevel.finalProject.Doka.Doka.db.entity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,8 +22,8 @@ public class Message {
     @Column(name = "text")
     private String text;
 
-    @Column(name = "autor")
-    private String autor;
+    @Column(name = "author")
+    private String author;
 
     @Column(name = "text_channel_id")
     private Integer text_channel_id;
@@ -31,9 +31,9 @@ public class Message {
     @Column(name = "to")
     private String to;
 
-    public Message(String text, String autor) {
+    public Message(String text, String author) {
         this.text = text;
-        this.autor = autor;
+        this.author = author;
     }
 
     public Message() {
@@ -42,8 +42,8 @@ public class Message {
     @Override
     public String toString() {
         return String.format(
-                "Message[message_id=%s, autor='%s', text='%s', text_channel_id='%s', receiver='%s']",
-                message_id, autor, text, text_channel_id, to);
+                "Message[message_id=%s, author='%s', text='%s', text_channel_id='%s', receiver='%s']",
+                message_id, author, text, text_channel_id, to);
     }
 
 }
