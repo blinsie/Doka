@@ -12,6 +12,9 @@ public class TextChannel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int text_channel_id;
 
+    @Column(name = "text_channel_name")
+    private String text_channel_name;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "server_id")
     private Server server;

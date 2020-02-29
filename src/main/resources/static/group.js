@@ -35,7 +35,7 @@ function sendName() {
     stompClient.send("/app/groupMsg", {}, JSON.stringify({
         //'from': $("#sender").val(),
         'text': $("#msgContent").val(),
-        //'to': $("#receiver").val()
+        'to': $("#receiver").val()
     }));
     showGreeting("Me", $("#msgContent").val());
 

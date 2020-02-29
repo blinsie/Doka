@@ -29,6 +29,7 @@ public class User {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
 /*
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
@@ -44,12 +45,6 @@ public class User {
         this.username = username;
         this.password = password;
     }
-
-/*
-    public void addServer(Server server){
-        this.serverList.add(server);
-    }
-*/
 
     @Override
     public String toString() {

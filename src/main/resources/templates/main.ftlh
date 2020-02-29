@@ -17,7 +17,7 @@
 
 <div>
     <form method="post">
-        <input type="text" , name="msg" , placeholder="input pls message"/>
+        <input type="text" , name="msg" , placeholder="input message"/>
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         <button type="submit">AddMsg</button>
     </form>

@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<a href="/server/text-channel">Text channel</a>
+<a href="/server/text-channel/swap/default">Text channel</a>
 
 
 

@@ -19,6 +19,7 @@ public class Server {
     @Column(name = "server_name")
     private String server_name;
 
+
 /*
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
@@ -28,6 +29,7 @@ public class Server {
     )
     private List<User> users;
 */
+
 
     @OneToMany(mappedBy = "server", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TextChannel> text_channels;
