@@ -19,6 +19,9 @@ public class Server {
     @Column(name = "server_name")
     private String server_name;
 
+    public void addTextChannel(TextChannel channel){
+        this.text_channels.add(channel);
+    }
 
 /*
     @ManyToMany(cascade = {CascadeType.ALL})

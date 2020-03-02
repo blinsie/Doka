@@ -22,14 +22,14 @@ import java.util.List;
 @Slf4j
 @RequestMapping("server")
 @Controller
-public class ServerController {
+public class TextChannelController {
     private final UserRepository userRepository;
     private final TextChannelRepository textChannelRepository;
     private final MessageRepository messageRepository;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
 
-    public ServerController(UserRepository userRepository, TextChannelRepository textChannelRepository, MessageRepository messageRepository, SimpMessagingTemplate simpMessagingTemplate) {
+    public TextChannelController(UserRepository userRepository, TextChannelRepository textChannelRepository, MessageRepository messageRepository, SimpMessagingTemplate simpMessagingTemplate) {
         this.userRepository = userRepository;
         this.textChannelRepository = textChannelRepository;
         this.messageRepository = messageRepository;
@@ -76,6 +76,8 @@ public class ServerController {
         return "text-channel";
     }
 
+
+
     @GetMapping("text-channel/{param}")
     public String add(@PathVariable String param, Model model) {
         TextChannel newTextChannel = new TextChannel();
@@ -121,6 +123,7 @@ public class ServerController {
         model.asMap().put("username", principal.getName());
         return "text-channel";
     }
+
 
     @MessageMapping("/groupMsg")
     public void sendPersonalMessage(Message msg, Principal principal) {
