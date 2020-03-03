@@ -10,13 +10,13 @@
             location.href = "http://" + location.host + "/text-channel/swap/" + host.split("/")[2] + "/" + text;
         }
 
-        function goToPage(o) {
-            var url = o.value;
+        function newTextChannel() {
+            var text = document.getElementById('channel_name').value
             host = window.location.pathname;
             if (host.split("/")[1] == "server"){
-                location.href = "http://" + location.host + "/text-channel/new/" + host.split("/")[2] + "/" + url;
+                location.href = "http://" + location.host + "/text-channel/new/" + host.split("/")[2] + "/" + text;
             } else {
-                location.href = "http://" + location.host + "/text-channel/new/" + host.split("/")[3] + "/" + url;
+                location.href = "http://" + location.host + "/text-channel/new/" + host.split("/")[3] + "/" + text;
             }
         }
     </script>
@@ -26,9 +26,9 @@
 <div>
     <form method="post">
         <input type="text" id="channel_name" name="textname"
-               placeholder="new text channel name"
-               onchange="goToPage(this);"/>
+               placeholder="new text channel name"/>
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+        <button type="button" onclick="newTextChannel()">Add text channel </button>
     </form>
 </div>
 <b>Text Channel list:</b>

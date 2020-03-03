@@ -11,10 +11,11 @@
             location.href = "http://" + location.host + "/server/" + text;
         }
 
-        function newServer(o) {
-            var url = o.value;
+
+        function newServer() {
+            var text = document.getElementById('server_name').value
             host = window.location.pathname;
-            location.href = "http://" + location.host + "/server/new/" + url;
+            location.href = "http://" + location.host + "/server/new/" + text;
         }
 
     </script>
@@ -25,10 +26,10 @@
 
 <div>
     <form method="post">
-        <input type="text" id="channel_name" name="textname"
-               placeholder="new server name"
-               onchange="newServer(this);"/>
+        <input type="text" id="server_name" name="textname"
+               placeholder="new server name"/>
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+        <button type="button" onclick="newServer()">Add server </button>
     </form>
 </div>
 

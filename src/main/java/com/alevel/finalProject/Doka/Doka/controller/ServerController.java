@@ -100,8 +100,8 @@ public class ServerController {
     @GetMapping("/text-channel/new/{serv}/{text}")
     public String createNewTextChannel(@PathVariable String serv, @PathVariable String text, Model model) {
         List<TextChannel> channels = textChannelRepository.findAll();
-        for (TextChannel t: channels){
-            if(t.getText_channel_name().equals(text)){
+        for (TextChannel t : channels) {
+            if (t.getText_channel_name().equals(text)) {
                 return "redirect:/";
             }
         }
