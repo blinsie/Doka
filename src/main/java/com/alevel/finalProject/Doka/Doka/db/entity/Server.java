@@ -16,7 +16,7 @@ public class Server {
     @Column(name = "server_id")
     private Integer server_id;
 
-    @Column(name = "server_name")
+    @Column(name = "server_name", unique = true)
     private String server_name;
 
     public void addTextChannel(TextChannel channel){

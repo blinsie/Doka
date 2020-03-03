@@ -11,13 +11,13 @@
     <script>
         function addTextToInput(anElement) {
             var text = anElement.innerText;
-            location.href = "http://" + location.host + "/server/text-channel/swap/" + text;
             document.getElementById('receiver').value = text;
         }
 
         function goToPage(o) {
-            var url = o.value;
-            location.href = url;
+            var text = o.innerText;
+            host = window.location.pathname;
+            location.href = "http://" + location.host + "/text-channel/swap/" + host.split("/")[3] + "/" + text;
         }
 
 
@@ -29,18 +29,19 @@
         Javascript and reload this page!</h2></noscript>
 <a href="/main">Main page</a>
 <div>
+    <b>Text channel name:</b>
+    <span id="textChannelName">${text_name}</span>
+    <b>Text channel Id:</b>
+    <span id="textChannelId">${text_id}</span>
+
+</div>
+<div>
     <div>
-        <form method="post">
-            <input type="text" id="channel_name" name="textname" placeholder="input text channel name" onchange="goToPage(this);"/>
-            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-        </form>
-    </div>
-    <div>
-        <b>Text Channel list:</b>
+        <b>Text channels list:</b>
         <#list channels as channel>
             <tr>
                 <td>
-                    <button type="button" onclick="addTextToInput(this)">${channel.text_channel_name} </button>
+                    <button type="button" onclick="goToPage(this)">${channel.text_channel_name} </button>
                 </td>
             </tr>
         <#else>
@@ -110,6 +111,9 @@
 
 <script>
     connect();
+    host = window.location.pathname;
+    var textChannel = host.split("/")[4]
+    document.getElementById('receiver').value = textChannel;
 </script>
 </body>
 </html>

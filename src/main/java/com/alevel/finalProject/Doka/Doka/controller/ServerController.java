@@ -19,18 +19,17 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class MainController {
+public class ServerController {
 
     private final ServerRepository serverRepository;
     private final TextChannelRepository textChannelRepository;
     private final MessageRepository messageRepository;
 
-    public MainController(ServerRepository serverRepository, TextChannelRepository textChannelRepository, MessageRepository messageRepository) {
+    public ServerController(ServerRepository serverRepository, TextChannelRepository textChannelRepository, MessageRepository messageRepository) {
         this.serverRepository = serverRepository;
         this.textChannelRepository = textChannelRepository;
         this.messageRepository = messageRepository;
     }
-
 
     @GetMapping("/")
     public String greeting() {
@@ -39,12 +38,24 @@ public class MainController {
 
     @GetMapping("/main")
     public String main(Map<String, Object> model) {
-
+        List<Server> serverList = serverRepository.findAll();
+        model.put("servers", serverList);
         return "main";
     }
 
+    @GetMapping("/server")
+    public String server() {
+        return "redirect:/main";
+    }
+
     @GetMapping("server/new/{param}")
-    public String createNewServer(@PathVariable String param, Model model) {
+    public String createNewServer(@PathVariable String param) {
+        List<Server> serverList = serverRepository.findAll();
+        for (Server s : serverList) {
+            if (s.getServer_name().equals(param)) {
+                return "redirect:/";
+            }
+        }
         Server server = new Server();
         TextChannel defaultTextChanel = new TextChannel();
         defaultTextChanel.setText_channel_name("default");
@@ -76,8 +87,6 @@ public class MainController {
         List<TextChannel> channels = textChannelRepository.findAll();
         List<TextChannel> forRemove = new ArrayList<>();
         for (TextChannel t : channels) {
-            System.out.println(t.getServer().getServer_id());
-            System.out.println(server.getServer_id());
             if (t.getServer().getServer_id() != server.getServer_id()) {
                 forRemove.add(t);
             }
@@ -90,6 +99,12 @@ public class MainController {
 
     @GetMapping("/text-channel/new/{serv}/{text}")
     public String createNewTextChannel(@PathVariable String serv, @PathVariable String text, Model model) {
+        List<TextChannel> channels = textChannelRepository.findAll();
+        for (TextChannel t: channels){
+            if(t.getText_channel_name().equals(text)){
+                return "redirect:/";
+            }
+        }
         TextChannel newTextChannel = new TextChannel();
         newTextChannel.setText_channel_name(text);
         List<Server> serverList = serverRepository.findAll();
@@ -106,7 +121,15 @@ public class MainController {
         }
         newTextChannel.setServer(server);
         textChannelRepository.save(newTextChannel);
-        return "redirect:/server/" + serv;
+        List<TextChannel> forRemove = new ArrayList<>();
+        for (TextChannel t : channels) {
+            if (t.getServer().getServer_id() != server.getServer_id()) {
+                forRemove.add(t);
+            }
+        }
+        channels.removeAll(forRemove);
+        model.asMap().put("channels", channels);
+        return "redirect:/text-channel/swap/" + serv + "/" + text;
     }
 
     @GetMapping("text-channel/swap/{serv}/{text}")
@@ -125,13 +148,19 @@ public class MainController {
         }
         List<TextChannel> channels = textChannelRepository.findAll();
         TextChannel byName = new TextChannel();
-        for (int i = 0; i < channels.size(); i++) {
-            if (channels.get(i).getText_channel_name().equals(text)) {
-                if (channels.get(i).getServer().getServer_id() == server.getServer_id()) {
-                    byName = channels.get(i);
+        List<TextChannel> textChannelsForRemove = new ArrayList<>();
+        for (TextChannel t : channels) {
+            if (t.getText_channel_name().equals(text)) {
+                if (t.getServer().getServer_id() == server.getServer_id()) {
+                    byName = t;
                 }
             }
+            if (t.getServer().getServer_id() != server.getServer_id()) {
+                textChannelsForRemove.add(t);
+            }
         }
+        channels.removeAll(textChannelsForRemove);
+        model.asMap().put("channels", channels);
         List<Message> messages = messageRepository.findAll();
         List<Message> forRemove = new ArrayList<>();
         for (Message m : messages) {
@@ -150,12 +179,18 @@ public class MainController {
             if (!m.getTo().equals(byName.getText_channel_name())) {
                 forRemove.add(m);
             }
+            if (m.getText_channel_id() != byName.getText_channel_id()) {
+                forRemove.add(m);
+            }
         }
         messages.removeAll(forRemove);
         System.out.println(messages);
         model.asMap().put("messages", messages);
         model.asMap().put("channels", channels);
         model.asMap().put("username", principal.getName());
+        model.asMap().put("text_name", byName.getText_channel_name());
+        model.asMap().put("text_id", byName.getText_channel_id());
+
         return "text-channel";
     }
 

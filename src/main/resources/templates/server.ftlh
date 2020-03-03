@@ -6,21 +6,28 @@
     <script>
         function addTextToInput(anElement) {
             var text = anElement.innerText;
-            location.href = "http://" + location.host + "/server/text-channel/swap/" + text;
-            document.getElementById('receiver').value = text;
+            host = window.location.pathname;
+            location.href = "http://" + location.host + "/text-channel/swap/" + host.split("/")[2] + "/" + text;
         }
+
         function goToPage(o) {
             var url = o.value;
-            location.href = "http://" + location.host + "/server/text-channel/" + url;
+            host = window.location.pathname;
+            if (host.split("/")[1] == "server"){
+                location.href = "http://" + location.host + "/text-channel/new/" + host.split("/")[2] + "/" + url;
+            } else {
+                location.href = "http://" + location.host + "/text-channel/new/" + host.split("/")[3] + "/" + url;
+            }
         }
     </script>
 </head>
 <body>
 <a href="/main">Main page</a>
-<a href="/server/text-channel/swap/default">Text channel</a>
 <div>
     <form method="post">
-        <input type="text" id="channel_name" name="textname" placeholder="input text channel name" onchange="goToPage(this);"/>
+        <input type="text" id="channel_name" name="textname"
+               placeholder="new text channel name"
+               onchange="goToPage(this);"/>
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
     </form>
 </div>
