@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Hello WebSocket</title>
-    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="/main.css" rel="stylesheet">
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
@@ -17,7 +17,7 @@
         function goToPage(o) {
             var text = o.innerText;
             host = window.location.pathname;
-            location.href = "http://" + location.host + "/text-channel/swap/" + host.split("/")[3] + "/" + text;
+            location.href = "https://" + location.host + "/text-channel/swap/" + host.split("/")[3] + "/" + text;
         }
 
 

@@ -37,7 +37,7 @@ ws.onmessage = function(message) {
 }
 
 function register() {
-	name = document.getElementById('name').value;
+	name = document.getElementById('userName').innerText;
 	var room = document.getElementById('roomName').value;
 
 	document.getElementById('room-header').innerText = 'ROOM ' + room;

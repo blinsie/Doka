@@ -5,17 +5,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Doka</title>
+    <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script>
         function goToPage(o) {
             var text = o.innerText;
-            location.href = "http://" + location.host + "/server/" + text;
+            location.href = "https://" + location.host + "/server/" + text;
         }
 
 
         function newServer() {
             var text = document.getElementById('server_name').value
             host = window.location.pathname;
-            location.href = "http://" + location.host + "/server/new/" + text;
+            location.href = "https://" + location.host + "/server/new/" + text;
         }
 
     </script>
@@ -23,6 +24,7 @@
 <body>
 
 <a href="/private-chat">Private chat</a>
+<a href="/voice-room">Test kurento</a>
 
 <div>
     <form method="post">

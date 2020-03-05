@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Doka server</title>
+    <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script>
         function addTextToInput(anElement) {
             var text = anElement.innerText;
             host = window.location.pathname;
-            location.href = "http://" + location.host + "/text-channel/swap/" + host.split("/")[2] + "/" + text;
+            location.href = "https://" + location.host + "/text-channel/swap/" + host.split("/")[2] + "/" + text;
         }
 
         function newTextChannel() {
             var text = document.getElementById('channel_name').value
             host = window.location.pathname;
             if (host.split("/")[1] == "server"){
-                location.href = "http://" + location.host + "/text-channel/new/" + host.split("/")[2] + "/" + text;
+                location.href = "https://" + location.host + "/text-channel/new/" + host.split("/")[2] + "/" + text;
             } else {
-                location.href = "http://" + location.host + "/text-channel/new/" + host.split("/")[3] + "/" + text;
+                location.href = "https://" + location.host + "/text-channel/new/" + host.split("/")[3] + "/" + text;
             }
         }
     </script>
