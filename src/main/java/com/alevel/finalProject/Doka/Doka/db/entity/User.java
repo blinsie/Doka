@@ -30,17 +30,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-/*
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(
-            name = "servers",
-            joinColumns = {@JoinColumn(name = "server_id")},
-            inverseJoinColumns = {@JoinColumn(name = "id")}
-    )
-    private List<Server> serverList;
-*/
-
-
     public User(String username, String password) {
         this.username = username;
         this.password = password;

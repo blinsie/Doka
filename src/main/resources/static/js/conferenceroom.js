@@ -38,9 +38,9 @@ ws.onmessage = function(message) {
 
 function register() {
 	name = document.getElementById('userName').innerText;
-	var room = document.getElementById('roomName').value;
+	var room = document.getElementById('voiceRoomName').innerText;
 
-	document.getElementById('room-header').innerText = 'ROOM ' + room;
+	document.getElementById('room-header').innerText = 'You join in room: ' + room;
 	document.getElementById('join').style.display = 'none';
 	document.getElementById('room').style.display = 'block';
 

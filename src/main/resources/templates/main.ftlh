@@ -24,7 +24,6 @@
 <body>
 
 <a href="/private-chat">Private chat</a>
-<a href="/voice-room">Test kurento</a>
 
 <div>
     <form method="post">

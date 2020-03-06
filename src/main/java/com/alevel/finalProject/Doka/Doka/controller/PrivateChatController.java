@@ -32,7 +32,6 @@ public class PrivateChatController {
     @MessageMapping("/personalMsg")
     public void sendPersonalMessage(Message msg, Principal principal) {
         msg.setAuthor(principal.getName());
-        System.out.println(msg.toString());
         String sender = msg.getAuthor();
         String content = msg.getText();
         String receiver = msg.getTo();

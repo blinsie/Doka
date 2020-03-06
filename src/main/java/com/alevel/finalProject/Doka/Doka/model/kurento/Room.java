@@ -1,4 +1,4 @@
-package com.alevel.finalProject.Doka.Doka.kurento;
+package com.alevel.finalProject.Doka.Doka.model.kurento;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

@@ -4,6 +4,7 @@ import com.alevel.finalProject.Doka.Doka.db.entity.Role;
 import com.alevel.finalProject.Doka.Doka.db.entity.User;
 import com.alevel.finalProject.Doka.Doka.db.repos.ServerRepository;
 import com.alevel.finalProject.Doka.Doka.db.repos.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.Collections;
 import java.util.Map;
 
+@Slf4j
 @Controller
 public class RegistrationController {
     private final UserRepository userRepository;
@@ -37,20 +39,8 @@ public class RegistrationController {
         }
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
-
-
-/*
-        Server defaultServer = new Server();
-        serverRepository.save(defaultServer);
-        List<Server> userServerList = new ArrayList<>();
-        user.setServerList(userServerList);
-        user.addServer(defaultServer);
-        defaultServer.setServer_name("defaultServer");
-        List<User> userList = new ArrayList<>();
-        userList.add(user);
-        defaultServer.setUsers(userList);
-*/
         userRepository.save(user);
+
 
         return "redirect:/login";
     }

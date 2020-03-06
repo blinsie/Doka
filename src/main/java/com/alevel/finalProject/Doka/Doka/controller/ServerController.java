@@ -3,9 +3,11 @@ package com.alevel.finalProject.Doka.Doka.controller;
 import com.alevel.finalProject.Doka.Doka.db.entity.Message;
 import com.alevel.finalProject.Doka.Doka.db.entity.Server;
 import com.alevel.finalProject.Doka.Doka.db.entity.TextChannel;
+import com.alevel.finalProject.Doka.Doka.db.entity.VoiceRoom;
 import com.alevel.finalProject.Doka.Doka.db.repos.MessageRepository;
 import com.alevel.finalProject.Doka.Doka.db.repos.ServerRepository;
 import com.alevel.finalProject.Doka.Doka.db.repos.TextChannelRepository;
+import com.alevel.finalProject.Doka.Doka.db.repos.VoiceRoomRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,17 +19,20 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class ServerController {
 
     private final ServerRepository serverRepository;
     private final TextChannelRepository textChannelRepository;
+    private final VoiceRoomRepository voiceRoomRepository;
     private final MessageRepository messageRepository;
 
-    public ServerController(ServerRepository serverRepository, TextChannelRepository textChannelRepository, MessageRepository messageRepository) {
+    public ServerController(ServerRepository serverRepository, TextChannelRepository textChannelRepository, VoiceRoomRepository voiceRoomRepository, MessageRepository messageRepository) {
         this.serverRepository = serverRepository;
         this.textChannelRepository = textChannelRepository;
+        this.voiceRoomRepository = voiceRoomRepository;
         this.messageRepository = messageRepository;
     }
 
@@ -85,15 +90,25 @@ public class ServerController {
             return "redirect:/";
         }
         List<TextChannel> channels = textChannelRepository.findAll();
-        List<TextChannel> forRemove = new ArrayList<>();
+        List<TextChannel> textForRemove = new ArrayList<>();
         for (TextChannel t : channels) {
             if (t.getServer().getServer_id() != server.getServer_id()) {
-                forRemove.add(t);
+                textForRemove.add(t);
             }
         }
-        channels.removeAll(forRemove);
-        model.asMap().put("channels", channels);
+        channels.removeAll(textForRemove);
 
+        List<VoiceRoom> rooms = voiceRoomRepository.findAll();
+        List<VoiceRoom> voiceRoomForRemove = new ArrayList<>();
+        for (VoiceRoom r : rooms) {
+            if (r.getServer().getServer_id() != server.getServer_id()) {
+                voiceRoomForRemove.add(r);
+            }
+        }
+        rooms.removeAll(voiceRoomForRemove);
+
+        model.asMap().put("channels", channels);
+        model.asMap().put("rooms", rooms);
         return "/server";
     }
 
@@ -121,14 +136,6 @@ public class ServerController {
         }
         newTextChannel.setServer(server);
         textChannelRepository.save(newTextChannel);
-        List<TextChannel> forRemove = new ArrayList<>();
-        for (TextChannel t : channels) {
-            if (t.getServer().getServer_id() != server.getServer_id()) {
-                forRemove.add(t);
-            }
-        }
-        channels.removeAll(forRemove);
-        model.asMap().put("channels", channels);
         return "redirect:/text-channel/swap/" + serv + "/" + text;
     }
 
@@ -192,6 +199,62 @@ public class ServerController {
         model.asMap().put("text_id", byName.getText_channel_id());
 
         return "text-channel";
+    }
+
+    @GetMapping("voice-room/swap/{serv}/{room}")
+    public String swapVoiceRoom(@PathVariable String serv, @PathVariable String room, Model model, Principal principal) {
+        List<Server> serverList = serverRepository.findAll();
+        Server server = new Server();
+        boolean isPresent = false;
+        for (Server s : serverList) {
+            if (s.getServer_name().equals(serv)) {
+                server = s;
+                isPresent = true;
+            }
+        }
+        if (!isPresent) {
+            return "redirect:/";
+        }
+        List<VoiceRoom> rooms = voiceRoomRepository.findAll();
+        Optional<VoiceRoom> first = rooms.stream()
+                .filter(r -> r.getVoice_room_name().equals(room))
+                .findFirst();
+        if (!first.isPresent()) {
+            return "redirect:/";
+        }
+        VoiceRoom presentVoiceRoom = first.get();
+
+        model.asMap().put("voice_room_name", presentVoiceRoom.getVoice_room_name());
+        model.asMap().put("voice_room_id", presentVoiceRoom.getVoice_room_id());
+        model.asMap().put("user_name", principal.getName());
+        return "voice-room";
+    }
+
+    @GetMapping("voice-room/new/{serv}/{room}")
+    public String createNewVoiceRoom(@PathVariable String serv, @PathVariable String room, Model model) {
+        List<Server> serverList = serverRepository.findAll();
+        Server server = new Server();
+        boolean isPresent = false;
+        for (Server s : serverList) {
+            if (s.getServer_name().equals(serv)) {
+                server = s;
+                isPresent = true;
+            }
+        }
+        if (!isPresent) {
+            return "redirect:/";
+        }
+        List<VoiceRoom> rooms = voiceRoomRepository.findAll();
+        for (VoiceRoom r : rooms) {
+            if (r.getVoice_room_name().equals(room)) {
+                return "redirect:/";
+            }
+        }
+        VoiceRoom newVoiceRoom = new VoiceRoom();
+        newVoiceRoom.setVoice_room_name(room);
+        newVoiceRoom.setServer(server);
+        voiceRoomRepository.save(newVoiceRoom);
+        return "redirect:/voice-room/swap/" + serv + "/" + room;
     }
 
 

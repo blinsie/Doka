@@ -1,4 +1,4 @@
-package com.alevel.finalProject.Doka.Doka.kurento;
+package com.alevel.finalProject.Doka.Doka.model.kurento;
 
 import org.springframework.web.socket.WebSocketSession;
 

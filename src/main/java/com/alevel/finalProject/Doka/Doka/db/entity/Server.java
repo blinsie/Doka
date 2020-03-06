@@ -23,22 +23,11 @@ public class Server {
         this.text_channels.add(channel);
     }
 
-/*
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(
-            name = "users",
-            joinColumns = {@JoinColumn(name = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "server_id")}
-    )
-    private List<User> users;
-*/
-
-
     @OneToMany(mappedBy = "server", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TextChannel> text_channels;
 
-/*
-    private List<Integer> call_channels_id;
-*/
+    @OneToMany(mappedBy = "server", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<VoiceRoom> voice_rooms;
+
 
 }

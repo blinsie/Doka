@@ -1,4 +1,4 @@
-package com.alevel.finalProject.Doka.Doka.kurento;
+package com.alevel.finalProject.Doka.Doka.model.kurento;
 
 import org.kurento.client.KurentoClient;
 import org.slf4j.Logger;

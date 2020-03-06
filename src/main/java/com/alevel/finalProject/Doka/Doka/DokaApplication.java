@@ -1,8 +1,8 @@
 package com.alevel.finalProject.Doka.Doka;
 
-import com.alevel.finalProject.Doka.Doka.kurento.CallHandler;
-import com.alevel.finalProject.Doka.Doka.kurento.RoomManager;
-import com.alevel.finalProject.Doka.Doka.kurento.UserRegistry;
+import com.alevel.finalProject.Doka.Doka.model.kurento.CallHandler;
+import com.alevel.finalProject.Doka.Doka.model.kurento.RoomManager;
+import com.alevel.finalProject.Doka.Doka.model.kurento.UserRegistry;
 import org.kurento.client.KurentoClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
