@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello WebSocket</title>
+    <title>Private chat</title>
     <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="/main.css" rel="stylesheet">
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-    <script src="/private.js"></script>
+    <script src="/static/js/private.js"></script>
     <script>
         function addTextToInput(anElement) {
             var text = anElement.innerText;

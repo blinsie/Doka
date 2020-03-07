@@ -1,6 +1,7 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <title>Voice room</title>
     <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="/webjars/webrtc-adapter/release/adapter.js"></script>
     <script src="/js/conferenceroom.js"></script>

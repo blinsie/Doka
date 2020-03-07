@@ -1,7 +1,5 @@
 package com.alevel.finalProject.Doka.Doka.config;
 
-//import org.apache.commons.lang3.StringUtils;
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -23,15 +21,13 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import java.util.ArrayList;
 import java.util.List;
 
-//import org.springframework.util.StringUtils;
-
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic", "/queue" ,"/user");
+        config.enableSimpleBroker("/topic", "/queue", "/user");
         config.setApplicationDestinationPrefixes("/app");
         config.setUserDestinationPrefix("/user");
     }
