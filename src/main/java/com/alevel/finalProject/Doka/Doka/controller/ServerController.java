@@ -21,6 +21,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+
+/**
+ * This class is control server parts that cross with view templates
+ * TODO:log, optimize code, tests
+ */
 @Controller
 public class ServerController {
 
@@ -70,8 +75,6 @@ public class ServerController {
         server.setServer_name(param);
         server.setText_channels(textChannels);
         serverRepository.save(server);
-
-
         return "redirect:/server/" + param;
     }
 
@@ -179,6 +182,9 @@ public class ServerController {
             }
             if (m.getText() == null) {
                 m.setText("<empty_text>");
+            }
+            if(m.getText_channel_id() == null){
+                m.setText_channel_id(-1);
             }
             if (m.getAuthor().equals(principal.getName())) {
                 m.setAuthor("Me");
