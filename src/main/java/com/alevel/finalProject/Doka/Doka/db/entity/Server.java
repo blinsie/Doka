@@ -2,6 +2,7 @@ package com.alevel.finalProject.Doka.Doka.db.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -23,9 +24,11 @@ public class Server {
         this.text_channels.add(channel);
     }
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "server", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TextChannel> text_channels;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "server", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<VoiceRoom> voice_rooms;
 

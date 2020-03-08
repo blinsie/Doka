@@ -1,6 +1,7 @@
 package com.alevel.finalProject.Doka.Doka.db.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -15,6 +16,7 @@ public class VoiceRoom {
     @Column(name = "voice_room_name")
     private String voice_room_name;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "server_id")
     private Server server;

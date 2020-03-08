@@ -60,24 +60,32 @@ public class ServerController {
 
     @GetMapping("server/new/{param}")
     public String createNewServer(@PathVariable String param) {
+        Server server = new Server();
+        server.setServer_name(param);
+        boolean isCreated = setUpNewServerWithServerName(server);
+        if(!isCreated){
+            return "redirect:/";
+        }
+        return "redirect:/server/" + param;
+    }
+
+    public boolean setUpNewServerWithServerName(Server server){
         List<Server> serverList = serverRepository.findAll();
         for (Server s : serverList) {
-            if (s.getServer_name().equals(param)) {
-                log.warn("Server - {} is already exist", param);
-                return "redirect:/";
+            if (s.getServer_name().equals(server.getServer_name())) {
+                log.warn("Server - {} is already exist", server.getServer_name());
+                return false;
             }
         }
-        Server server = new Server();
         TextChannel defaultTextChanel = new TextChannel();
         defaultTextChanel.setText_channel_name("default");
         defaultTextChanel.setServer(server);
         List<TextChannel> textChannels = new ArrayList<>();
         textChannels.add(defaultTextChanel);
-        server.setServer_name(param);
         server.setText_channels(textChannels);
         serverRepository.save(server);
         log.info("Creating new server - {}", server.getServer_name());
-        return "redirect:/server/" + param;
+        return true;
     }
 
     @GetMapping("server/{serv}")
@@ -86,21 +94,31 @@ public class ServerController {
         if (server.getServer_name() == null) {
             return "redirect:/";
         }
-        List<TextChannel> channels = textChannelRepository.findAll();
-        channels = channels.stream()
-                .filter(f -> f.getServer().getServer_id().equals(server.getServer_id()))
-                .collect(Collectors.toList());
-        List<VoiceRoom> rooms = voiceRoomRepository.findAll();
-        rooms = rooms.stream()
-                .filter(r -> r.getServer().getServer_id().equals(server.getServer_id()))
-                .collect(Collectors.toList());
+        List<TextChannel> channels = findServerChannelsByServerId(server.getServer_id());
+        List<VoiceRoom> rooms = findServerRoomsByServerId(server.getServer_id());
         model.asMap().put("channels", channels);
         model.asMap().put("rooms", rooms);
         return "/server";
     }
 
+    public List<TextChannel> findServerChannelsByServerId(int id){
+        List<TextChannel> channels = textChannelRepository.findAll();
+        channels = channels.stream()
+                .filter(f -> f.getServer().getServer_id().equals(id))
+                .collect(Collectors.toList());
+        return channels;
+    }
+
+    public List<VoiceRoom> findServerRoomsByServerId(int id){
+        List<VoiceRoom> rooms = voiceRoomRepository.findAll();
+        rooms = rooms.stream()
+                .filter(r -> r.getServer().getServer_id().equals(id))
+                .collect(Collectors.toList());
+        return rooms;
+    }
+
     @GetMapping("/text-channel/new/{serv}/{text}")
-    public String createNewTextChannel(@PathVariable String serv, @PathVariable String text, Model model) {
+    public String createNewTextChannel(@PathVariable String serv, @PathVariable String text) {
         List<TextChannel> channels = textChannelRepository.findAll();
         for (TextChannel t : channels) {
             if (t.getText_channel_name().equals(text)) {
@@ -174,7 +192,7 @@ public class ServerController {
         return "text-channel";
     }
 
-    private void editMessagesThatHaveEmptyContent(List<Message> messages) {
+    public void editMessagesThatHaveEmptyContent(List<Message> messages) {
         messages.stream()
                 .forEach(m -> {
                     if (m.getAuthor() == null) {
@@ -233,7 +251,7 @@ public class ServerController {
         return "redirect:/voice-room/swap/" + serv + "/" + room;
     }
 
-    private Server getServerByName(String serverName) {
+    protected Server getServerByName(String serverName) {
         List<Server> serverList = serverRepository.findAll();
         Server server = new Server();
         boolean isPresent = false;
