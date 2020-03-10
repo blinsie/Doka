@@ -1,0 +1,17 @@
+version: "3.5"
+
+services:
+
+  kurento:
+    image: kurento/kurento-media-server
+    hostname: kms
+    expose:
+      - "8888"
+    ports:
+      - 8888:8888
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge
