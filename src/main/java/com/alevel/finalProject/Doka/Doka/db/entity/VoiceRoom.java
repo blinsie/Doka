@@ -1,11 +1,13 @@
 package com.alevel.finalProject.Doka.Doka.db.entity;
 
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "voice_rooms")
 public class VoiceRoom {
@@ -16,6 +18,7 @@ public class VoiceRoom {
     @Column(name = "voice_room_name")
     private String voice_room_name;
 
+    @EqualsAndHashCode.Include
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "server_id")

@@ -1,13 +1,11 @@
 package com.alevel.finalProject.Doka.Doka.db.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -17,6 +15,7 @@ public class TextChannel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int text_channel_id;
 
+    @EqualsAndHashCode.Include
     @ToString.Exclude
     @Column(name = "text_channel_name")
     private String text_channel_name;

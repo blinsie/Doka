@@ -21,6 +21,9 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Web socket config class
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfigurer {

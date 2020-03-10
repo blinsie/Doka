@@ -1,8 +1,6 @@
 package com.alevel.finalProject.Doka.Doka.db.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,7 +8,9 @@ import java.util.List;
 @Entity
 @Table(name = "servers")
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Server {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,6 +24,7 @@ public class Server {
         this.text_channels.add(channel);
     }
 
+    @EqualsAndHashCode.Include
     @ToString.Exclude
     @OneToMany(mappedBy = "server", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TextChannel> text_channels;
