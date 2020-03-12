@@ -6,74 +6,7 @@
     <script src="/webjars/jquery/3.1.1-1/jquery.min.js"></script>
     <script src="/webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
-    <script>
-        function addTextToInput(anElement) {
-            var text = anElement.innerText;
-            document.getElementById('receiver').value = text;
-        }
-
-        var stompClient = null;
-
-        function setConnected(connected) {
-            $("#connect").prop("disabled", connected);
-            $("#disconnect").prop("disabled", !connected);
-            if (connected) {
-                $("#conversation").show();
-            } else {
-                $("#conversation").hide();
-            }
-            //$("#greetings").html("");
-        }
-
-        function connect() {
-            var socket = new SockJS('/gs-guide-websocket');
-            stompClient = Stomp.over(socket);
-            stompClient.connect({"user": "test-user"}, function (frame) {
-                setConnected(true);
-                console.log('Connected: ' + frame);
-                stompClient.subscribe('/user/queue/reply', function (greeting) {
-                    showGreeting(JSON.parse(greeting.body).author, JSON.parse(greeting.body).text, JSON.parse(greeting.body).to);
-                });
-            });
-        }
-
-        function disconnect() {
-            if (stompClient !== null) {
-                stompClient.disconnect();
-            }
-            setConnected(false);
-            console.log("Disconnected");
-        }
-
-        function sendName() {
-            stompClient.send("/app/personalMsg", {}, JSON.stringify({
-                'from': $("#sender").val(),
-                'text': $("#msgContent").val(),
-                'to': $("#receiver").val()
-            }));
-            showGreeting("Me", $("#msgContent").val(), $("#receiver").val());
-
-        }
-
-        function showGreeting(sender, message, receiver) {
-            $("#greetings").append("<tr><td>" + sender + "</td><td>" + message + "</td><td>" + receiver + "</td></tr>");
-        }
-
-        $(function () {
-            $("form").on('submit', function (e) {
-                e.preventDefault();
-            });
-            $("#connect").click(function () {
-                connect();
-            });
-            $("#disconnect").click(function () {
-                disconnect();
-            });
-            $("#send").click(function () {
-                sendName();
-            });
-        });
-    </script>
+    <script src="private.js"></script>
 </head>
 <body>
 <noscript><h2 style="color: #ff0e36">Seems your browser doesn't support Javascript! Websocket relies on Javascript being

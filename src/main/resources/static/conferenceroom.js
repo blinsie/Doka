@@ -62,17 +62,6 @@ function receiveVideoResponse(result) {
 	});
 }
 
-function callResponse(message) {
-	if (message.response != 'accepted') {
-		console.info('Call not accepted by peer. Closing call');
-		stop();
-	} else {
-		webRtcPeer.processAnswer(message.sdpAnswer, function (error) {
-			if (error) return console.error (error);
-		});
-	}
-}
-
 function onExistingParticipants(msg) {
 	var constraints = {
 		audio : true,
@@ -101,9 +90,10 @@ function onExistingParticipants(msg) {
 		  }
 		  this.generateOffer (participant.offerToReceiveVideo.bind(participant));
 	});
-
 	msg.data.forEach(receiveVideo);
 }
+
+
 
 function leaveRoom() {
 	sendMessage({

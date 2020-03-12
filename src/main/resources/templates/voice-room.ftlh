@@ -4,8 +4,8 @@
     <title>Voice room</title>
     <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="/webjars/webrtc-adapter/release/adapter.js"></script>
-    <script src="/js/conferenceroom.js"></script>
-    <script src="/js/participant.js"></script>
+    <script src="/conferenceroom.js"></script>
+    <script src="/participant.js"></script>
     <script src="/js/kurento-utils.js"></script>
 </head>
 <body>

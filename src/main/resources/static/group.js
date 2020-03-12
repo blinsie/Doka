@@ -1,3 +1,9 @@
+function goToPage(o) {
+    var text = o.innerText;
+    host = window.location.pathname;
+    location.href = "https://" + location.host + "/text-channel/swap/" + host.split("/")[3] + "/" + text;
+}
+
 var stompClient = null;
 
 function setConnected(connected) {
@@ -17,7 +23,7 @@ function connect() {
     stompClient.connect({"user": "test-user"}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/user/queue/reply', function (greeting) {
+        stompClient.subscribe('/user/queue/group', function (greeting) {
             showGreeting(JSON.parse(greeting.body).author, JSON.parse(greeting.body).text, JSON.parse(greeting.body).to);
         });
     });
@@ -32,17 +38,19 @@ function disconnect() {
 }
 
 function sendName() {
-    stompClient.send("/app/personalMsg", {}, JSON.stringify({
-        'from': $("#sender").val(),
+    stompClient.send("/app/groupMsg", {}, JSON.stringify({
+        //'from': $("#sender").val(),
         'text': $("#msgContent").val(),
-        'to': $("#receiver").val()
+        'to': $("#receiver").val(),
+        'text_channel_id': document.getElementById('textChannelId').textContent
     }));
-    showGreeting("Me", $("#msgContent").val(), $("#receiver").val());
+
+    showGreeting("Me", $("#msgContent").val());
 
 }
 
-function showGreeting(sender, message, receiver) {
-    $("#greetings").append("<tr><td>" + sender + "</td><td>" + message + "</td><td>" + receiver + "</td></tr>");
+function showGreeting(sender, message) {
+    $("#greetings").append("<tr><td>" + sender + "</td><td>" + message + "</td></tr>");
 }
 
 $(function () {

@@ -1,3 +1,8 @@
+function addTextToInput(anElement) {
+    var text = anElement.innerText;
+    document.getElementById('receiver').value = text;
+}
+
 var stompClient = null;
 
 function setConnected(connected) {
@@ -17,7 +22,7 @@ function connect() {
     stompClient.connect({"user": "test-user"}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/user/queue/group', function (greeting) {
+        stompClient.subscribe('/user/queue/reply', function (greeting) {
             showGreeting(JSON.parse(greeting.body).author, JSON.parse(greeting.body).text, JSON.parse(greeting.body).to);
         });
     });
@@ -32,19 +37,17 @@ function disconnect() {
 }
 
 function sendName() {
-    stompClient.send("/app/groupMsg", {}, JSON.stringify({
-        //'from': $("#sender").val(),
+    stompClient.send("/app/personalMsg", {}, JSON.stringify({
+        'from': $("#sender").val(),
         'text': $("#msgContent").val(),
-        'to': $("#receiver").val(),
-        'text_channel_id': document.getElementById('textChannelId').textContent
+        'to': $("#receiver").val()
     }));
-
-    showGreeting("Me", $("#msgContent").val());
+    showGreeting("Me", $("#msgContent").val(), $("#receiver").val());
 
 }
 
-function showGreeting(sender, message) {
-    $("#greetings").append("<tr><td>" + sender + "</td><td>" + message + "</td></tr>");
+function showGreeting(sender, message, receiver) {
+    $("#greetings").append("<tr><td>" + sender + "</td><td>" + message + "</td><td>" + receiver + "</td></tr>");
 }
 
 $(function () {
