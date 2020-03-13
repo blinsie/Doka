@@ -24,7 +24,10 @@ function connect() {
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/user/queue/group', function (greeting) {
-            showGreeting(JSON.parse(greeting.body).author, JSON.parse(greeting.body).text, JSON.parse(greeting.body).to);
+            var text_id = document.getElementById('textChannelId').textContent;
+            if (text_id == JSON.parse(greeting.body).text_channel_id) {
+                showGreeting(JSON.parse(greeting.body).author, JSON.parse(greeting.body).text, JSON.parse(greeting.body).text_channel_id);
+            }
         });
     });
 }
@@ -44,7 +47,7 @@ function sendName() {
         'to': $("#receiver").val(),
         'text_channel_id': document.getElementById('textChannelId').textContent
     }));
-
+    var text_id = document.getElementById('textChannelId').textContent;
     showGreeting("Me", $("#msgContent").val());
 
 }
