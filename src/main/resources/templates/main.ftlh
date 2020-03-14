@@ -24,6 +24,7 @@
 <body>
 
 <a href="/private-chat">Private chat</a>
+<a href="/friends">Friends list</a>
 
 <div>
     <form method="post">

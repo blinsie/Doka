@@ -18,11 +18,13 @@
         <b>Your name: </b>
         <span id="username">${username}</span>
         <div>
-            <b>User list:</b>
-            <#list userlist as user>
-            <tr>
-                <td> <button type="button" onclick="addTextToInput(this)">${user.username} </button> </td>
-            </tr>
+            <b>Friend list:</b>
+            <#list friendlist as friend>
+                <tr>
+                    <td>
+                        <button type="button" onclick="addTextToInput(this)">${friend} </button>
+                    </td>
+                </tr>
             <#else>
 
             </#list>

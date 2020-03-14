@@ -15,6 +15,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * This class control private chat view and sending message by WebSockets
@@ -46,7 +47,13 @@ public class PrivateChatController {
 
     @GetMapping("/private-chat")
     public String chat(Map<String, Object> model, Principal principal) {
-        List<User> users = userRepository.findAll();
+        User presentUser = userRepository.findByUsername(principal.getName());
+        List<Integer> friendsId = presentUser.getFriend_list_id();
+        List<String> friendsName = new ArrayList<>();
+        for (Integer i : friendsId) {
+            Optional<User> get = userRepository.findById(i);
+            get.ifPresent(user -> friendsName.add(user.getUsername()));
+        }
         List<Message> messages = messageRepository.findAll();
         editMessagesThatHaveEmptyContent(messages);
         List<Message> forRemove = new ArrayList<>();
@@ -65,7 +72,7 @@ public class PrivateChatController {
         }
         messages.removeAll(forRemove);
         model.put("username", principal.getName());
-        model.put("userlist", users);
+        model.put("friendlist", friendsName);
         model.put("messages", messages);
         return "private-chat";
     }
