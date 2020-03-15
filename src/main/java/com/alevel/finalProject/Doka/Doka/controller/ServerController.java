@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 
 /**
- * This class is control server parts that cross with view templates
+ * This class control server parts that cross with view templates
  */
 @Slf4j
 @Controller
