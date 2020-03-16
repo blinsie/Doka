@@ -11,28 +11,28 @@ ws.onmessage = function(message) {
 	console.info('Received message: ' + message.data);
 
 	switch (parsedMessage.id) {
-	case 'existingParticipants':
-		onExistingParticipants(parsedMessage);
-		break;
-	case 'newParticipantArrived':
-		onNewParticipant(parsedMessage);
-		break;
-	case 'participantLeft':
-		onParticipantLeft(parsedMessage);
-		break;
-	case 'receiveVideoAnswer':
-		receiveVideoResponse(parsedMessage);
-		break;
-	case 'iceCandidate':
-		participants[parsedMessage.name].rtcPeer.addIceCandidate(parsedMessage.candidate, function (error) {
-	        if (error) {
-		      console.error("Error adding candidate: " + error);
-		      return;
-	        }
-	    });
-	    break;
-	default:
-		console.error('Unrecognized message', parsedMessage);
+		case 'existingParticipants':
+			onExistingParticipants(parsedMessage);
+			break;
+		case 'newParticipantArrived':
+			onNewParticipant(parsedMessage);
+			break;
+		case 'participantLeft':
+			onParticipantLeft(parsedMessage);
+			break;
+		case 'receiveVideoAnswer':
+			receiveVideoResponse(parsedMessage);
+			break;
+		case 'iceCandidate':
+			participants[parsedMessage.name].rtcPeer.addIceCandidate(parsedMessage.candidate, function (error) {
+				if (error) {
+					console.error("Error adding candidate: " + error);
+					return;
+				}
+			});
+			break;
+		default:
+			console.error('Unrecognized message', parsedMessage);
 	}
 }
 
@@ -79,17 +79,17 @@ function onExistingParticipants(msg) {
 	var video = participant.getVideoElement();
 
 	var options = {
-	      localVideo: video,
-	      mediaConstraints: constraints,
-	      onicecandidate: participant.onIceCandidate.bind(participant)
-	    }
+		localVideo: video,
+		mediaConstraints: constraints,
+		onicecandidate: participant.onIceCandidate.bind(participant)
+	}
 	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options,
 		function (error) {
-		  if(error) {
-			  return console.error(error);
-		  }
-		  this.generateOffer (participant.offerToReceiveVideo.bind(participant));
-	});
+			if(error) {
+				return console.error(error);
+			}
+			this.generateOffer (participant.offerToReceiveVideo.bind(participant));
+		});
 	msg.data.forEach(receiveVideo);
 }
 
@@ -114,17 +114,17 @@ function receiveVideo(sender) {
 	var video = participant.getVideoElement();
 
 	var options = {
-      remoteVideo: video,
-      onicecandidate: participant.onIceCandidate.bind(participant)
-    }
+		remoteVideo: video,
+		onicecandidate: participant.onIceCandidate.bind(participant)
+	}
 
 	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options,
-			function (error) {
-			  if(error) {
-				  return console.error(error);
-			  }
-			  this.generateOffer (participant.offerToReceiveVideo.bind(participant));
-	});;
+		function (error) {
+			if(error) {
+				return console.error(error);
+			}
+			this.generateOffer (participant.offerToReceiveVideo.bind(participant));
+		});;
 }
 
 function onParticipantLeft(request) {

@@ -36,6 +36,7 @@ public class PrivateChatController {
     @MessageMapping("/personalMsg")
     public void sendPersonalMessage(Message msg, Principal principal) {
         msg.setAuthor(principal.getName());
+        msg.setText_channel_id(-100);//-100 -> id for add private text channel
         String sender = msg.getAuthor();
         String content = msg.getText();
         String receiver = msg.getTo();
@@ -62,6 +63,9 @@ public class PrivateChatController {
                 if (!m.getTo().equals(principal.getName())) {
                     forRemove.add(m);
                 }
+            }
+            if(!m.getText_channel_id().equals(-100)){
+                forRemove.add(m);
             }
             if (m.getAuthor().equals(principal.getName())) {
                 m.setAuthor("Me");
