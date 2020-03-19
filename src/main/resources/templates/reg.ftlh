@@ -10,7 +10,7 @@
     <fieldset>
         <input type="hidden" name="_csrf" value="${_csrf.token}" />
         <!-- Form Name -->
-        <legend>Sign Out</legend>
+        <legend>Sign Up</legend>
 
         <!-- Text input-->
         <div class="form-group">
@@ -30,9 +30,9 @@
 
         <!-- Button -->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="sign_out">Single Button</label>
+            <label class="col-md-4 control-label" for="sign_up">Single Button</label>
             <div class="col-md-4">
-                <button type="submit" value="Sign Out" id="sign_out" name="sign_out" class="btn btn-primary">Sign Out</button>
+                <button type="submit" value="Sign Up" id="sign_up" name="sign_up" class="btn btn-primary">Sign Up</button>
             </div>
         </div>
 
