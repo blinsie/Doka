@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -58,15 +60,15 @@ public class ServerController {
         return "redirect:/main";
     }
 
-    @GetMapping("server/new/{param}")
-    public String createNewServer(@PathVariable String param) {
+    @PostMapping("server/new")
+    public String createNewServer(@RequestParam String server_name) {
         Server server = new Server();
-        server.setServer_name(param);
+        server.setServer_name(server_name);
         boolean isCreated = setUpNewServerWithServerName(server);
         if(!isCreated){
             return "redirect:/";
         }
-        return "redirect:/server/" + param;
+        return "redirect:/server/" + server_name;
     }
 
     public boolean setUpNewServerWithServerName(Server server){
@@ -117,25 +119,25 @@ public class ServerController {
         return rooms;
     }
 
-    @GetMapping("/text-channel/new/{serv}/{text}")
-    public String createNewTextChannel(@PathVariable String serv, @PathVariable String text) {
+    @PostMapping("/text-channel/new")
+    public String createNewTextChannel(@RequestParam String server_name, @RequestParam String text_name) {
         List<TextChannel> channels = textChannelRepository.findAll();
         for (TextChannel t : channels) {
-            if (t.getText_channel_name().equals(text)) {
-                log.warn("Text-channel - {} is already exist!", text);
+            if (t.getText_channel_name().equals(text_name)) {
+                log.warn("Text-channel - {} is already exist!", text_name);
                 return "redirect:/";
             }
         }
         TextChannel newTextChannel = new TextChannel();
-        newTextChannel.setText_channel_name(text);
-        Server server = getServerByName(serv);
+        newTextChannel.setText_channel_name(text_name);
+        Server server = getServerByName(server_name);
         if (server.getServer_name() == null) {
             return "redirect:/";
         }
         newTextChannel.setServer(server);
         textChannelRepository.save(newTextChannel);
-        log.info("Creating text-channel - {}", text);
-        return "redirect:/text-channel/swap/" + serv + "/" + text;
+        log.info("Creating text-channel - {}", text_name);
+        return "redirect:/text-channel/swap/" + server_name + "/" + text_name;
     }
 
     @GetMapping("text-channel/swap/{serv}/{text}")
@@ -207,6 +209,26 @@ public class ServerController {
                 });
     }
 
+    @PostMapping("voice-room/new")
+    public String createNewVoiceRoom(@RequestParam String server_name, @RequestParam String room_name, Model model) {
+        Server server = getServerByName(server_name);
+        if (server.getServer_name() == null) {
+            return "redirect:/";
+        }
+        List<VoiceRoom> rooms = voiceRoomRepository.findAll();
+        for (VoiceRoom r : rooms) {
+            if (r.getVoice_room_name().equals(room_name)) {
+                log.warn("Voice room - {} is already exist!", room_name);
+                return "redirect:/";
+            }
+        }
+        VoiceRoom newVoiceRoom = new VoiceRoom();
+        newVoiceRoom.setVoice_room_name(room_name);
+        newVoiceRoom.setServer(server);
+        voiceRoomRepository.save(newVoiceRoom);
+        log.info("Creating new voice room - {}", room_name);
+        return "redirect:/voice-room/swap/" + server_name + "/" + room_name;
+    }
 
     @GetMapping("voice-room/swap/{serv}/{room}")
     public String swapVoiceRoom(@PathVariable String serv, @PathVariable String room, Model model, Principal principal) {
@@ -228,27 +250,6 @@ public class ServerController {
         model.asMap().put("voice_room_id", presentVoiceRoom.getVoice_room_id());
         model.asMap().put("user_name", principal.getName());
         return "voice-room";
-    }
-
-    @GetMapping("voice-room/new/{serv}/{room}")
-    public String createNewVoiceRoom(@PathVariable String serv, @PathVariable String room, Model model) {
-        Server server = getServerByName(serv);
-        if (server.getServer_name() == null) {
-            return "redirect:/";
-        }
-        List<VoiceRoom> rooms = voiceRoomRepository.findAll();
-        for (VoiceRoom r : rooms) {
-            if (r.getVoice_room_name().equals(room)) {
-                log.warn("Voice room - {} is already exist!", room);
-                return "redirect:/";
-            }
-        }
-        VoiceRoom newVoiceRoom = new VoiceRoom();
-        newVoiceRoom.setVoice_room_name(room);
-        newVoiceRoom.setServer(server);
-        voiceRoomRepository.save(newVoiceRoom);
-        log.info("Creating new voice room - {}", room);
-        return "redirect:/voice-room/swap/" + serv + "/" + room;
     }
 
     protected Server getServerByName(String serverName) {

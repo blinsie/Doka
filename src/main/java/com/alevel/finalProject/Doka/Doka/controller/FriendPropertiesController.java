@@ -6,7 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -45,35 +46,35 @@ public class FriendPropertiesController {
         return "friends";
     }
 
-    @GetMapping("/friends/add/{friend}")
+    @PostMapping("/friends/add")
     public String addFriendByName(Principal principal,
-                                 @PathVariable String friend) {
-        log.info("Trying to add {} to {} friend list",friend ,principal.getName());
-        User forAddToFriend = userRepository.findByUsername(friend);
+                                  @RequestParam String friend_name) {
+        log.info("Trying to add {} to {} friend list", friend_name, principal.getName());
+        User forAddToFriend = userRepository.findByUsername(friend_name);
         User presentUser = userRepository.findByUsername(principal.getName());
         List<Integer> friendsId = presentUser.getFriend_list_id();
         if (friendsId == null) {
             friendsId = new ArrayList<>();
         }
-        if (!friendsId.contains(forAddToFriend.getId()) && !friend.equals(principal.getName())) {
+        if (!friendsId.contains(forAddToFriend.getId()) && !friend_name.equals(principal.getName())) {
             friendsId.add(forAddToFriend.getId());
             presentUser.setFriend_list_id(friendsId);
             userRepository.save(presentUser);
-            log.info("Save {} with new friend {}", principal.getName(), friend);
+            log.info("Save {} with new friend {}", principal.getName(), friend_name);
         } else {
-            log.info("Error! {} is already friends with {} or NoSuchFriendExeprion", friend, principal.getName());
+            log.info("Error! {} is already friends with {} or NoSuchFriendExeprion", friend_name, principal.getName());
         }
         return "redirect:/friends";
     }
 
-    @GetMapping("/friends/delete/{friend}")
-    public String deleteFriendByName(@PathVariable String friend, Principal principal) {
-        log.info("Trying to delete {} from {} friend list",friend ,principal.getName());
-        User forDeleteFromFriend = userRepository.findByUsername(friend);
+    @PostMapping("/friends/delete")
+    public String deleteFriendByName(@RequestParam String friend_name, Principal principal) {
+        log.info("Trying to delete {} from {} friend list", friend_name, principal.getName());
+        User forDeleteFromFriend = userRepository.findByUsername(friend_name);
         User presentUser = userRepository.findByUsername(principal.getName());
         presentUser.getFriend_list_id().remove(forDeleteFromFriend.getId());
         userRepository.save(presentUser);
-        log.info("Save {} without friend {}", principal.getName(), friend);
+        log.info("Save {} without friend {}", principal.getName(), friend_name);
         return "redirect:/friends";
     }
 

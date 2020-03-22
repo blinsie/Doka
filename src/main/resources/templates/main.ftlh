@@ -12,7 +12,6 @@
             location.href = "https://" + location.host + "/server/" + text;
         }
 
-
         function newServer() {
             var text = document.getElementById('server_name').value
             host = window.location.pathname;
@@ -27,11 +26,11 @@
 <a href="/friends">Friends list</a>
 
 <div>
-    <form method="post">
-        <input type="text" id="server_name" name="textname"
+    <form action="/server/new" method="post">
+        <input type="text" id="server_name" name="server_name"
                placeholder="new server name"/>
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-        <button type="button" onclick="newServer()">Add server </button>
+        <button type="submit" >Add server </button>
     </form>
 </div>
 
