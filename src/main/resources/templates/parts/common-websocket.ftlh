@@ -4,48 +4,28 @@
     <head>
         <meta charset="UTF-8">
         <title>Project Doka</title>
-
         <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
         <script src="/webjars/jquery/3.1.1-1/jquery.min.js"></script>
         <script src="/webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
         <script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
-        <script src="/serverTools.js"></script>
-
+        <script src="/webjars/webrtc-adapter/release/adapter.js"></script>
+        <script src="private.js"></script>
+        <script src="/group.js"></script>
+        <script src="/conferenceroom.js"></script>
+        <script src="/participant.js"></script>
+        <script src="/js/kurento-utils.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
               integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
               crossorigin="anonymous">
-
-
-        <script>
-            function goToPage(o) {
-                var text = o.innerText;
-                location.href = "https://" + location.host + "/server/" + text;
-            }
-
-            function newServer() {
-                var text = document.getElementById('server_name').value
-                host = window.location.pathname;
-                location.href = "https://" + location.host + "/server/new/" + text;
-            }
-
-            function addFriendToInput(o) {
-                var text = o.innerText;
-                document.getElementById('friend_name').value = text;
-            }
-
-            function addFriendToDeleteInput(o) {
-                var text = o.innerText;
-                document.getElementById('friend_name_delete').value = text;
-            }
-
-        </script>
     </head>
     <body>
     <#include "navbar.ftlh">
     <div class="container">
+
         <#nested>
+
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
