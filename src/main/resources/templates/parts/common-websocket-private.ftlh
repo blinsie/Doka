@@ -10,10 +10,6 @@
         <script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
         <script src="/webjars/webrtc-adapter/release/adapter.js"></script>
         <script src="private.js"></script>
-        <script src="/group.js"></script>
-        <script src="/conferenceroom.js"></script>
-        <script src="/participant.js"></script>
-        <script src="/js/kurento-utils.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"

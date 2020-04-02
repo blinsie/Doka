@@ -1,4 +1,4 @@
-<#import "parts/common-websocket.ftlh" as c>
+<#import "parts/common-websocket-group.ftlh" as c>
 <@c.page>
 
     <div>

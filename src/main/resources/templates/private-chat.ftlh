@@ -1,4 +1,4 @@
-<#import "parts/common-websocket.ftlh" as c>
+<#import "parts/common-websocket-private.ftlh" as c>
 <@c.page>
 
     <noscript><h2 style="color: #ff0e36">Seems your browser doesn't support Javascript! Websocket relies on Javascript
